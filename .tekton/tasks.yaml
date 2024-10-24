@@ -1,8 +1,8 @@
 ---
 apiVersion: tekton.dev/v1beta1
-kind: Task 
+kind: Task
 metadata:
-name: cleanup
+  name: cleanup
 spec:
   description: This task will clean up a workspace by deleting all the files.
   workspaces:
@@ -10,12 +10,11 @@ spec:
   steps:
     - name: remove
       image: alpine:3
-      command: [git]
       env:
         - name: WORKSPACE_SOURCE_PATH
           value: $(workspaces.source.path)
       workingDir: $(workspaces.source.path)
-      securityContext: |
+      securityContext:
         runAsNonRoot: false
         runAsUser: 0
       script: |
@@ -36,13 +35,11 @@ spec:
         fi
 
 ---
-
 apiVersion: tekton.dev/v1beta1
-kind: Task 
+kind: Task
 metadata:
   name: nose
 spec:
-  description: This task will clean up a workspace by deleting all the files.
   workspaces:
     - name: source
   params:
